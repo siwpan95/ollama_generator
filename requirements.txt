@@ -1,0 +1,4 @@
+# ollama_generator dependencies (auto-generated 2026-08-20)
+ollama
+requests
+# local deps (sibling projects, not pip): ollama_generator
