@@ -1,5 +1,5 @@
-{
-  "api_key": "sk-b9a6c8099fe54913b42e7f629d7cb30f",
+﻿{
+  "api_key": "",
   "model": "deepseek-v4-pro",
   "base_url": "https://api.deepseek.com/v1"
 }
