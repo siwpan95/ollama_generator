@@ -2,3 +2,6 @@
 
 # 密钥配置（复制 deepseek_config.example.json 为 deepseek_config.json 后填写；禁止提交真实密钥）
 deepseek_config.json
+
+# 未跟踪产物/输出治理（2026-08-28）
+release/
