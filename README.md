@@ -1,5 +1,7 @@
 # Ollama Generator — AI 文本生成库
 
+> 仓库：<https://gitee.com/siwpan/ollama_generator> ｜ 许可：MIT（见 [LICENSE](LICENSE)）
+
 基于 Ollama 的通用 AI 文本生成库，支持多轮对话和中文清洗。
 
 ## 功能
