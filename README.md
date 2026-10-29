@@ -5,7 +5,7 @@
 > 本仓在 siwpan 投资组合（D:/projects/repos，共 133 仓）中定级为 **① 核心推进**，领域 **AI/大模型**，定位 **本地AI叙事**。
 > **角色**：基于 Ollama 的通用 AI 文本生成库，随本地AI栈维护。
 > **维护策略**：① 核心推进——持续投入、不允许冻结；随所属收敛点 / 流水线长期演进。
-> 投资组合统一分级索引：`D:/projects/repos/PORTFOLIO_TIERING.md`。
+> 投资组合统一分级索引（多机可查）：[组合分级决策索引 · allin 事实源](https://gitee.com/siwpan/allin/blob/master/docs/事实源/组合分级决策索引.md)。
 
 > 仓库：<https://gitee.com/siwpan/ollama_generator> ｜ 许可：MIT（见 [LICENSE](LICENSE)）
 
