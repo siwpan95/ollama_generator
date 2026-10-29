@@ -7,9 +7,43 @@ AI 文本生成 — 核心模块
 import json
 import os
 import random
+import shutil
+import subprocess
 import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
+
+
+# ---------------------------------------------------------------------------
+# 本地受管密钥库（AES-256-GCM vault）回退
+# 设计：明文 key 不落盘。仅当用户未通过环境变量/配置文件提供时，
+# 才在「用户主动运行工具」时经子进程向 vault 取回明文（进程退出即清零）。
+# ---------------------------------------------------------------------------
+# 去符盘（铁律 5）：不烤 Windows 绝对路径。
+# 默认按「用户主目录 + .dsvault」解析，跨平台；可用 DSVAULT_DIR / DSVAULT_PYTHON 覆盖。
+VAULT_CLI = os.path.join(
+    os.environ.get("DSVAULT_DIR") or os.path.expanduser("~/.dsvault"),
+    "deepseek_vault.py",
+)
+# 需 cryptography 的解释器：默认 PATH 中的 python3，可用 DSVAULT_PYTHON 指定
+_VAULT_PY = os.environ.get("DSVAULT_PYTHON") or (shutil.which("python3") or "python3")
+
+
+def _resolve_from_vault(vault_key: str) -> str:
+    """从受管密钥库取出明文 key；任何异常（未初始化/超时/缺失）均返回空字符串。"""
+    py = _VAULT_PY if os.path.exists(_VAULT_PY) else (shutil.which("python3") or "python3")
+    try:
+        proc = subprocess.run(
+            [py, VAULT_CLI, "get", vault_key],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+        if proc.returncode == 0:
+            return proc.stdout.strip()
+    except Exception:
+        pass
+    return ""
 
 # ollama 为可选依赖，仅在调用本地模型时才需要
 _ollama = None
@@ -86,6 +120,11 @@ def _load_deepseek_api_key() -> str:
                     return data["api_key"]
         except Exception:
             continue
+
+    # 收敛：本地明文 deepseek_config.json 已清除。缺失时从受管密钥库取回 Key B。
+    val = _resolve_from_vault("ollama_deepseek_key")
+    if val:
+        return val
     return ""
 
 
